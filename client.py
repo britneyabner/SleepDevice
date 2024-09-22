@@ -13,4 +13,5 @@ def run_client(broker, port, keepalive, topic):
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(broker, port, keepalive)
+    client.publish("data", "test")
     client.loop_forever()
