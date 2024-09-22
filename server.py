@@ -1,6 +1,6 @@
 import client
 
-BROKER = "18.118.132.58"
+BROKER = "127.0.0.1"
 PORT = 1883
 KEEPALIVE = 60
 TOPIC = "data"
