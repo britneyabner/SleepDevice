@@ -6,4 +6,4 @@ KEEPALIVE = 60
 TOPIC = "data"
 
 if __name__ == "__main__":
-    client.client(BROKER, PORT, KEEPALIVE, TOPIC)
+    client.run_client(BROKER, PORT, KEEPALIVE, TOPIC)
