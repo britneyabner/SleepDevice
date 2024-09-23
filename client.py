@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqtt
-import picamera2
 
 BROKER = "127.0.0.1"
 PORT = 1883
