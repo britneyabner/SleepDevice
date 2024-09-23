@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt
 BROKER = "broker.emqx.io"
 PORT = 1883
 KEEPALIVE = 60
-TOPIC = "data"
+TOPIC = "britneyabner/sleepdevice"
 
 
 def _on_connect(mqttc, userdata, flags, reason_code, properties):
