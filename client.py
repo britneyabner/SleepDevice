@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+import picamera2
 
 BROKER = "127.0.0.1"
 PORT = 1883
@@ -28,7 +29,7 @@ class MqttClient:
         self.client.connect(self.broker, self.port, self.keepalive)
         self.client.subscribe(self.topic)
 
-    def publish(self, message: str):
+    def publish(self, message):
         self.client.publish(self.topic, message)
 
 
@@ -36,6 +37,5 @@ if __name__ == "__main__":
     client = MqttClient(BROKER, PORT, KEEPALIVE, TOPIC)
     client.connect()
     client.client.loop_start()
-    while True:
-        client.publish("test")
+    client.publish("test")
     client.client.loop_stop()

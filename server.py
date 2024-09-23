@@ -35,7 +35,4 @@ class MqttServer:
 if __name__ == "__main__":
     client = MqttServer(BROKER, PORT, KEEPALIVE, TOPIC)
     client.connect()
-    client.client.loop_start()
-    while True:
-        pass
-    client.client.loop_stop()
+    client.client.loop_forever()
