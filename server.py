@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 
-BROKER = "172.31.37.207"
+BROKER = "127.0.0.1"
 PORT = 1883
 KEEPALIVE = 60
 TOPIC = "data"
