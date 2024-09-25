@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqtt
+import paho.mqtt as mqtt
 import io
 
 BROKER = "broker.emqx.io"
@@ -16,7 +16,7 @@ def _on_message(mqttc, userdata, msg):
 
 
 if __name__ == "__main__":
-    server = mqtt.Client(mqtt.CallbackAPIVersion.API_VERSION2)
+    server = mqtt.client.Client(mqtt.CallbackAPIVersion.API_VERSION2)
     server.on_connect = _on_connect
     server.on_message = _on_message
     server.connect(BROKER, PORT, KEEPALIVE)

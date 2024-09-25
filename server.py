@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqtt
+import paho.mqtt as mqtt
 
 BROKER = "broker.emqx.io"
 PORT = 1883
