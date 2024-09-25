@@ -18,7 +18,7 @@ def record():
 
 def convert(path: str):
     byte_stream = open("test.mp4", "rb")
-    return byte_stream
+    return byte_stream.read()
 
 
 if __name__ == "__main__":
