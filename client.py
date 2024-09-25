@@ -15,9 +15,6 @@ def _on_message(mqttc, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
 
 
-def
-
-
 if __name__ == "__main__":
     server = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     server.on_connect = _on_connect
