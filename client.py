@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+import io
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -12,6 +13,9 @@ def _on_connect(mqttc, userdata, flags, reason_code, properties):
 
 def _on_message(mqttc, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
+
+
+def
 
 
 if __name__ == "__main__":
