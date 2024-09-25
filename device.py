@@ -1,6 +1,5 @@
 import time
 import picamera2
-import io
 
 
 def record():
@@ -19,7 +18,7 @@ def record():
 
 def convert(path: str):
     byte_stream = open("test.mp4", "rb")
-    print(byte_stream)
+    return byte_stream
 
 
 if __name__ == "__main__":

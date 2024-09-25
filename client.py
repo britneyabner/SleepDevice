@@ -1,4 +1,5 @@
 import paho.mqtt.client as mqtt
+import device
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -15,9 +16,13 @@ def _on_message(mqttc, userdata, msg):
 
 
 if __name__ == "__main__":
-    server = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-    server.on_connect = _on_connect
-    server.on_message = _on_message
-    server.connect(BROKER, PORT, KEEPALIVE)
-    server.publish(TOPIC, "test")
-    server.loop_forever()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    client.on_connect = _on_connect
+    client.on_message = _on_message
+    client.connect(BROKER, PORT, KEEPALIVE)
+    client.subscribe(TOPIC)
+
+    device.record()
+    byte_stream = device.convert("test.mp4")
+    client.publish(TOPIC, byte_stream)
+    client.loop_forever()
