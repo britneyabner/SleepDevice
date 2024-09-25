@@ -1,7 +1,6 @@
-import pyaudio
 import time
 import picamera2
-import libcamera
+import io
 
 
 def record():
@@ -18,5 +17,11 @@ def record():
     return output
 
 
+def convert(path: str):
+    byte_stream = open("test.mp4", "rb")
+    print(byte_stream)
+
+
 if __name__ == "__main__":
     record()
+    convert("test.mp4")
