@@ -23,7 +23,7 @@ def convert(path: str):
         byte = file.read(1)
         byte_value = ord(byte)
 
-    return byte_value
+    return byte
 
 
 def test_byte_stream():
