@@ -25,4 +25,5 @@ if __name__ == "__main__":
     device.record()
     byte_stream = device.convert("test.mp4")
     client.publish(TOPIC, byte_stream)
+    client.publish(TOPIC, "byte_stream_sent")
     client.loop_forever()

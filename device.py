@@ -21,6 +21,10 @@ def convert(path: str):
     return byte_stream.read()
 
 
+def test_byte_stream():
+    byte_stream = open("test.mp4", "rb")
+    print(byte_stream.read())
+
+
 if __name__ == "__main__":
-    record()
-    convert("test.mp4")
+    test_byte_stream()
