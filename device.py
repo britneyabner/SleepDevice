@@ -17,13 +17,21 @@ def record():
 
 
 def convert(path: str):
-    byte_stream = open("test.mp4", "rb")
-    return byte_stream.read()
+    # byte_stream = open("test.mp4", "rb")
+    # return byte_stream.read()
+    with open("test.mp4", "rb") as file:
+        byte = file.read(1)
+        byte_value = ord(byte)
+
+    return byte_value
 
 
 def test_byte_stream():
-    byte_stream = open("test.mp4", "rb")
-    print(byte_stream.read())
+    with open("test.mp4", "rb") as file:
+        byte = file.read(1)
+        byte_value = ord(byte)
+    # byte_stream = open("test.mp4", "rb")
+    # print(byte_stream.read())
 
 
 if __name__ == "__main__":
