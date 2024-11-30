@@ -1,11 +1,50 @@
+import time
 import picamera2
+import cv2
 
-def record_video(video_name: str, recording_time: int):
-    camera = picamera2.PiCamera()
-    camera.resolution = (640, 480)
 
-    video_file = video_name + ".h264"
+def record_video(file_name: str, record_time: int):
+    camera = picamera2.Picamera2()
+    video_config = camera.create_video_configuration()
+    camera.configure(video_config)
+    encoder = picamera2.encoders.H264Encoder(bitrate=10000000)
+    output = picamera2.outputs.FfmpegOutput(file_name, audio=False)
 
-    camera.start_recording(video_file)
-    camera.wait_recording(recording_time)
-    camera.stop_recording
+    camera.start_recording(encoder, output)
+    time.sleep(record_time)
+    camera.stop_recording()
+
+
+class FrameExtracter:
+    def __init__(self, video_file: str):
+        self.vidcap = cv2.VideoCapture(video_file)
+        self.count = 0
+        self.success = True
+
+    def extract_frame(self):
+        if not self.success:
+            return None
+
+        self.vidcap.set(cv2.CAP_PROP_POS_MSEC, (self.count*1000))
+        self.success, image = self.vidcap.read()
+
+        return image
+
+
+def test_record_video():
+    record_video("test.mp4", 10)
+
+
+def test_frame_extractor():
+    frame_extractor = FrameExtracter("test.mp4")
+
+    while True:
+        frame1 = frame_extractor.extract_frame()
+        frame2 = frame_extractor.extract_frame()
+
+        if frame1 is None or frame2 is None:
+            break
+
+
+if __name__ == "__main__":
+    test_frame_extractor()

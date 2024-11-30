@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 
+
 class Microphone:
     def __init__(self, digital_pin: int, analog_pin: int, callback_function):
         self.digital_pin = digital_pin
@@ -14,3 +15,5 @@ class Microphone:
         GPIO.add_event_detect(digital_pin, GPIO.RISING)
         GPIO.add_event_callback(digital_pin, self.callback_function)
 
+    def detect_audio(self) -> bool:
+        return GPIO.input(self.digital_pin)

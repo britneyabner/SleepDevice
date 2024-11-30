@@ -1,5 +1,4 @@
 import paho.mqtt.client as mqtt
-import device
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -15,15 +14,33 @@ def _on_message(mqttc, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
 
 
-if __name__ == "__main__":
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-    client.on_connect = _on_connect
-    client.on_message = _on_message
-    client.connect(BROKER, PORT, KEEPALIVE)
-    client.subscribe(TOPIC)
+class Client:
+    def __init__(self, broker, port, keepalive):
+        self.broker = broker
+        self.port = port
+        self.keepalive = keepalive
+        self.mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        self.mqttc.on_connect = _on_connect
+        self.mqttc.on_message = _on_message
+        self.mqttc.connect(self.broker, self.port, self.keepalive)
 
-    device.record()
-    byte_stream = device.convert("test.mp4")
-    client.publish(TOPIC, byte_stream)
-    client.publish(TOPIC, "byte_stream_sent")
-    client.loop_forever()
+    def subscribe(self, topic: str):
+        self.mqttc.subscribe(topic)
+
+    def publish(self, topic: str, msg):
+        self.mqttc.publish(topic, msg)
+
+    def loop(self):
+        self.mqttc.loop_forever()
+
+
+def test():
+    client = Client(BROKER, PORT, KEEPALIVE)
+    client.subscribe(TOPIC)
+    client.publish(TOPIC, "hello")
+    client.loop()
+    client.publish(TOPIC, "test")
+
+
+if __name__ == "__main__":
+    test()
