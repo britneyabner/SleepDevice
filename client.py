@@ -6,22 +6,14 @@ KEEPALIVE = 60
 TOPIC = "britneyabner/sleepdevice"
 
 
-def _on_connect(mqttc, userdata, flags, reason_code, properties):
-    print(f"Connected with result code {reason_code}")
-
-
-def _on_message(mqttc, userdata, msg):
-    print(msg.topic + " " + str(msg.payload))
-
-
 class Client:
-    def __init__(self, broker, port, keepalive):
+    def __init__(self, broker, port, keepalive, on_message, on_connect):
         self.broker = broker
         self.port = port
         self.keepalive = keepalive
         self.mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-        self.mqttc.on_connect = _on_connect
-        self.mqttc.on_message = _on_message
+        self.mqttc.on_connect = on_connect
+        self.mqttc.on_message = on_message
         self.mqttc.connect(self.broker, self.port, self.keepalive)
 
     def subscribe(self, topic: str):
