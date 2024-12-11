@@ -27,6 +27,7 @@ class FrameExtracter:
 
         self.vidcap.set(cv2.CAP_PROP_POS_MSEC, (self.count*1000))
         self.success, image = self.vidcap.read()
+        self.count += 1
 
         return image
 

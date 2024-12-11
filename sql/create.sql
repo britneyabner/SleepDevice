@@ -5,7 +5,7 @@ CREATE TABLE patients (
 );
 
 CREATE TABLE sleep_data (
-    patient_id          INT REFERENCES patients (patient_id),
+    patient_id          INT REFERENCES patients (patient_id) on DELETE CASCADE,
     sleep_date          DATE,
     time_slept          INTERVAL,
     motion_score        INT CHECK (motion_score >= 0 AND motion_score <= 100),

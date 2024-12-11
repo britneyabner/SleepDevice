@@ -12,7 +12,7 @@ class Database:
     def __init__(self, name: str, user: str) -> (str, str):
         self.connect_str = f"dbname={name} user={user}"
 
-    def get_patient_name_from_id(self, id: int):
+    def get_patient_name_from_id(self, id: int) -> (str, str):
         """Obtains the first and last name of a patient base on id number.
 
         Args:
@@ -66,6 +66,49 @@ class Database:
                     VALUES (%s, %s, %s, %s, %s)
                     """, (id, date, time_slept, motion_score, sound_score))
 
+    def remove_patient(self, id: int):
+        with psycopg.connect(self.connect_str) as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    DELETE FROM patients
+                    WHERE patient_id=%s""", (id,))
+
+    def get_average_sound_score(self, id: int) -> float:
+        with psycopg.connect(self.connect_str) as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT AVG(sound_score)
+                    FROM sleep_data
+                    WHERE patient_id=%s""", (id,))
+
+                score = cur.fetchone()
+
+        return score
+
+    def get_average_motion_score(self, id: int) -> float:
+        with psycopg.connect(self.connect_str) as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT AVG(motion_score)
+                    FROM sleep_data
+                    WHERE patient_id=%s""", (id,))
+
+                score = cur.fetchone()
+
+        return score
+
+    def get_sound_score_on_date(self, id: int, date: datetime.date) -> int:
+        with psycopg.connct(self.connect_str) as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    SELECT sound_score
+                    FROM sleep_data
+                    WHERE (patient_id=%s) AND (date=%s)""", (id, date))
+
+                score = cur.fetchone()
+
+        return score
+
 
 def test_add_new_patient():
     db = Database("sleepdb", "postgres")
@@ -85,6 +128,6 @@ def test_add_patients_scores():
     db.add_patient_scores(1, date, time, 90, 75)
 
 
-if __name__ == "__main__":
-    test_get_patient_name_from_id()
-    test_add_patients_scores()
+def test_remove_patient():
+    db = Database("sleepdb", "postgres")
+    db.remove_patient(1)
