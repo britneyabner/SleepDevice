@@ -1,8 +1,8 @@
 import time
-import picamera2
 import cv2
 
 
+"""
 def record_video(file_name: str, record_time: int):
     camera = picamera2.Picamera2()
     video_config = camera.create_video_configuration()
@@ -13,11 +13,12 @@ def record_video(file_name: str, record_time: int):
     camera.start_recording(encoder, output)
     time.sleep(record_time)
     camera.stop_recording()
+"""
 
 
 class FrameExtracter:
-    def __init__(self, video_file: str):
-        self.vidcap = cv2.VideoCapture(video_file)
+    def __init__(self):
+        self.vidcap = cv2.VideoCapture(0)
         self.count = 0
         self.success = True
 
@@ -30,11 +31,15 @@ class FrameExtracter:
         self.count += 1
 
         return image
+    
+    def capture_frame(self):
+        ret, frame = self.vidcap.read()
+        if ret:
+            cv2.imshow('Frame', frame)
 
 
 def test_record_video():
-    record_video("test.mp4", 10)
-
+    pass
 
 def test_frame_extractor():
     frame_extractor = FrameExtracter("test.mp4")

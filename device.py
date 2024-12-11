@@ -6,8 +6,8 @@ import time
 import protocol
 import sys
 
-DIGITAL_MIC_PIN = 6
-ANALOG_MIC_PIN = 7
+DIGITAL_MIC_PIN = 23
+ANALOG_MIC_PIN = 24
 VIDEO = "test.mp4"
 RECORD_TIME = 8 * 60 * 60   # 8 hours, in seconds
 
@@ -44,12 +44,19 @@ def run_device(id: int):
     _ = microphone.Microphone(6, 7, _on_sound_detected(DIGITAL_MIC_PIN),
                               _on_sound_stop(DIGITAL_MIC_PIN))
 
-    # begin recording
-    camera.record_video(VIDEO, RECORD_TIME)
+    cam = camera.FrameExtracter()
+    im1 = cam.capture_frame()
+    motion_count = 0
+    for i in range(0, 30):
+        im2 = cam.capture_frame()
+        if motiondetection.detect_motion(im1, im2):
+            motion_count += 1
+        im1 = im2
 
-    # once recording finished, record the sound score
+
     sound_score = int(1 - (sound_time / RECORD_TIME))
 
+    '''
     # iterate through the frames of the video to detect motions
     frames = camera.FrameExtracter(VIDEO)
     motion_count = 0
@@ -58,7 +65,7 @@ def run_device(id: int):
     while image1 is not None and image2 is not None:
         if motiondetection.detect_motion(image1, image2):
             motion_count += 1
-
+    '''
     # use the number of motions to calculate sound score
     motion_score = int((1 - motion_count / frames.count) * 100)
 
