@@ -3,6 +3,8 @@ import cv2
 import imutils
 
 def _subtract_images(image1, image2):
+    image1 = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+    image2 = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
     diff = cv2.absdiff(image1, image2)
     _, thresh = cv2.threshold(diff, 50, 255, cv2.THRESH_BINARY)
     return diff, thresh
