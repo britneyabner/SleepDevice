@@ -42,7 +42,7 @@ def run_device(id: int, record_time: int):
     motion_score = int((1 - motion_count / frame_count) * 100)
 
     # format the string for sending to the server via mqtt
-    date_str = datetime.date.today().strftime('%Y-%M-%D')
+    date_str = datetime.date.today().strftime('%Y-%m-%d')
     time_str = f"{record_time} sec"
     score_message = protocol.msg_send_scores(id, date_str, time_str, motion_score,
                                              sound_score)
