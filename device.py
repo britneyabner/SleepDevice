@@ -6,6 +6,7 @@ import time
 import protocol
 import sys
 import datetime
+import json
 
 DEVICE_PATH = "dev/gpiochip4"
 DIGITAL_MIC_PIN = 23
@@ -54,7 +55,11 @@ def run_device(id: int, record_time: int):
         print("Device connected")
 
     def _on_message(mqttc, userdata, msg):
-        pass
+        data = json.loads(msg.payload)
+        if data["request"] == "send_scores_on_date":
+            motion = data["motion_score"]
+            sound = data["sound_score"]
+            print(f"motion: {motion}, sound: {sound}")
 
     mqttc = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
     mqttc.subscribe(SUB_TOPIC)
