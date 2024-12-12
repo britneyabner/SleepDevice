@@ -42,7 +42,7 @@ def run_server():
                 data["motion_score"],
                 data["sound_score"]
             )
-        elif data["request"] == "request_scores_on_date":
+        if data["request"] == "request_scores_on_date":
             id = data["id"]
             date = data["date"]
             motion = db.get_motion_score_on_date(id, date)
