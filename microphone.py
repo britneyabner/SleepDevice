@@ -46,8 +46,11 @@ def detect_sound():
     try:
         if _get_line_value(DEVICE_PATH, DIGIATL_PIN) == Value.ACTIVE:
             return True
+        else:
+            return False
     except Exception:
         return False
+
 
 if __name__ == "__main__":
     print(detect_sound())
