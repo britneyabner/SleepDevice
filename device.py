@@ -9,7 +9,6 @@ import sys
 DIGITAL_MIC_PIN = 23
 ANALOG_MIC_PIN = 24
 VIDEO = "test.mp4"
-RECORD_TIME = 8 * 60 * 60   # 8 hours, in seconds
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -19,42 +18,30 @@ SUB_TOPIC = "britneyabner/sleepdevice/server"
 PUB_TOPIC = "britneyabner/sleepdevice/device"
 
 
-def run_device(id: int):
-    # Declare callback functions for the microphone that time how long sound is
-    # detected for
-    sound_start = None
-    sound_stop = None
+def run_device(id: int, record_time: int):
     sound_time = 0
 
-    def _on_sound_detected(pin):
-        nonlocal sound_start
-
-        sound_start = time.time()
-
-    def _on_sound_stop(pin):
-        nonlocal sound_start
-        nonlocal sound_stop
-        nonlocal sound_time
-
-        sound_stop = time.time()
-        elapsed_time = sound_stop - sound_start
-        sound_time += elapsed_time
-
-    # initialize GPIO for sound detection
-    _ = microphone.Microphone(6, 7, _on_sound_detected(DIGITAL_MIC_PIN),
-                              _on_sound_stop(DIGITAL_MIC_PIN))
-
+   # initialize GPIO for sound detection
+    mic = microphone.Microphone(DIGITAL_MIC_PIN, ANALOG_MIC_PIN)
     cam = camera.FrameExtracter()
+
     im1 = cam.capture_frame()
     motion_count = 0
-    for i in range(0, 30):
+    for i in range(0, record_time):
         im2 = cam.capture_frame()
         if motiondetection.detect_motion(im1, im2):
             motion_count += 1
         im1 = im2
+        try:
+            if mic.detect_audio():
+                sound_time += 1
+        finally:
+            pass
+        time.sleep(1)
 
+    mic.release_pin()
 
-    sound_score = int(1 - (sound_time / RECORD_TIME))
+    sound_score = int(1 - (sound_time / record_time))
 
     '''
     # iterate through the frames of the video to detect motions

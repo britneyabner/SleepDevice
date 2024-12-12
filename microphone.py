@@ -1,19 +1,16 @@
-import RPi.GPIO as GPIO
+import gpiod
 
 
 class Microphone:
-    def __init__(self, digital_pin: int, analog_pin: int, rising_callback,
-                 falling_callback):
-        self.digital_pin = digital_pin
-        self.analog_pin = analog_pin
+    def __init__(self, digital_pin: int, analog_pin):
+        self.chip = gpiod.Chip('gpiochip4')
+        self.digital_line = self.chip.get_line(digital_pin)
 
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
+        self.digital_line_request(
+            consumer='Digital', type=gpiod.LINE_REQ_DIR_IN)
 
-        GPIO.setup(digital_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    def detect_audio(self) -> bool:
+        return self.digital_line.get_value()
 
-        GPIO.add_event_detect(self.digital_pin, GPIO.RISING,
-                              callback=rising_callback, bouncetime=300)
-
-        GPIO.add_event_detect(self.digital_pin, GPIO.FALLING,
-                              callback=falling_callback, bouncetime=300)
+    def release_pin(self):
+        self.digital_line.release()
