@@ -33,7 +33,7 @@ def run_device(id: int, record_time: int):
         #if motiondetection.detect_motion(im1, im2):
             #motion_count += 1
         #im1 = im2
-        if mic.detect_audio():
+        if mic.detect_sound():
             sound_time += 1
         time.sleep(1)
 
