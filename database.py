@@ -112,7 +112,7 @@ a                    SELECT sound_score
     def get_motion_score_on_date(self, id: int, date: str) -> int:
         with psycopg.connect(self.connect_str) as conn:
             with conn.cursor() as cur:
-                cur.exectute("""
+                cur.execute("""
                     SELECT motion_score
                     FROM sleep_data
                     WHERE (patient_id=%s) AND (date=%s)
