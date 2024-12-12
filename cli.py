@@ -14,7 +14,7 @@ def run():
     parser.add_argument('-r', '--record',
                         action="store_true")
 
-    parser.add_argument('-s' '--score',
+    parser.add_argument('-s', '--score',
                         action="store_true")
 
     parser.add_argument('-d' '--date',
