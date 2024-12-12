@@ -103,7 +103,7 @@ class Database:
                 cur.execute("""
 a                    SELECT sound_score
                     FROM sleep_data
-                    WHERE (patient_id=%s) AND (date=%s)""", (id, date))
+                    WHERE (patient_id=%s) AND (sleep_date=%s)""", (id, date))
 
                 score = cur.fetchone()
 
@@ -115,7 +115,7 @@ a                    SELECT sound_score
                 cur.execute("""
                     SELECT motion_score
                     FROM sleep_data
-                    WHERE (patient_id=%s) AND (date=%s)
+                    WHERE (patient_id=%s) AND (sleep_date=%s)
                 """, (id, date))
 
                 score = cur.fetchone()
