@@ -16,7 +16,7 @@ def msg_send_scores(id: int, date: str, time: str, motion: int, sound: int) -> s
 
 def msg_request_scores_on_date(id: int, date: str):
     message = {
-        "request": "request_scores_on_day",
+        "request": "request_scores_on_date",
         "id": id,
         "date": date
     }

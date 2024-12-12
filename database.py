@@ -98,7 +98,7 @@ class Database:
         return score
 
     def get_sound_score_on_date(self, id: int, date: datetime.date) -> int:
-        with psycopg.connct(self.connect_str) as conn:
+        with psycopg.connect(self.connect_str) as conn:
             with conn.cursor() as cur:
                 cur.execute("""
 a                    SELECT sound_score
@@ -108,6 +108,15 @@ a                    SELECT sound_score
                 score = cur.fetchone()
 
         return score
+
+    def get_motion_score_on_date(self, id: int, date: str) -> int:
+        with psycopg.connect(self.connect_str) as conn:
+            with conn.cursor() as cur:
+                cur.execture("""
+                    SELECT motion_score
+                    FROM sleep_data
+                    WHERE (patient_id=%s) AND (date=%s)
+                """, (id, date))
 
 
 def test_add_new_patient():

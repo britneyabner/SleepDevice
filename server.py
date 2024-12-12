@@ -3,6 +3,7 @@ import database
 import re
 import datetime
 import json
+import protocol
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -41,6 +42,14 @@ def run_server():
                 data["motion_score"],
                 data["sound_score"]
             )
+        elif data["request"] == "request_scores_on_date":
+            id = data["id"]
+            date = data["date"]
+            motion = db.get_motion_score_on_date(id, date)
+            sound = db.get_sound_score_on_date(id, date)
+            message = protocol.msg_send_scores_on_date(motion, sound)
+            server_client.publish(PUB_TOPIC, message)
+
     server_client = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
     server_client.subscribe(SUB_TOPIC)
 
