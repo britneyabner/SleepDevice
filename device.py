@@ -77,5 +77,5 @@ def run_device(id: int, record_time: int):
 
 if __name__ == "__main__":
     id = sys.argv[1]
-    record_time = sys.argv[2]
+    record_time = int(sys.argv[2])
     run_device(id, record_time)
