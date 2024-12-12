@@ -17,7 +17,7 @@ def run():
     parser.add_argument('-s', '--score',
                         action="store_true")
 
-    parser.add_argument('-d' '--date',
+    parser.add_argument('-d', '--date',
                         type=str)
 
     parser.add_argument('-t', '--time',
