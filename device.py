@@ -6,7 +6,7 @@ import time
 import protocol
 import sys
 
-DEVICE_PATH = "dev/gpiochip0"
+DEVICE_PATH = "dev/gpiochip4"
 DIGITAL_MIC_PIN = 23
 
 BROKER = "broker.emqx.io"
