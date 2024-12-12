@@ -19,7 +19,7 @@ def record_video(file_name: str, record_time: int):
 class Camera:
     def __init__(self):
         self.picam = picamera2.Picamera2()
-        self.picam.configure(self.picam.video_configuration(
+        self.picam.configure(self.picam.create_video_configuration(
             main={"format": 'XRGB8888', "size": (300, 300)}))
         self.picam.start()
 
