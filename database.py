@@ -118,6 +118,10 @@ a                    SELECT sound_score
                     WHERE (patient_id=%s) AND (date=%s)
                 """, (id, date))
 
+                score = cur.fetchone()
+
+        return score
+
 
 def test_add_new_patient():
     db = Database("sleepdb", "postgres")
