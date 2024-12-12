@@ -26,9 +26,11 @@ def run_device(id: int, record_time: int):
     cam = camera.FrameExtracter()
 
     im1 = cam.capture_frame()
+    fram_count = 1
     motion_count = 0
     for i in range(0, record_time):
         im2 = cam.capture_frame()
+        frame_count = 2
         if motiondetection.detect_motion(im1, im2):
             motion_count += 1
         im1 = im2
@@ -54,10 +56,10 @@ def run_device(id: int, record_time: int):
             motion_count += 1
     '''
     # use the number of motions to calculate sound score
-    motion_score = int((1 - motion_count / frames.count) * 100)
+    motion_score = int((1 - motion_count / frame_count) * 100)
 
     # format the string for sending to the server via mqtt
-    time_str = f"{RECORD_TIME} sec"
+    time_str = f"{record_time} sec"
     score_message = protocol.send_scores(id, time_str, motion_score,
                                          sound_score)
 
@@ -80,4 +82,5 @@ def run_device(id: int, record_time: int):
 
 if __name__ == "__main__":
     id = sys.argv[1]
-    run_device(id)
+    record_time = sys.argv[2]
+    run_device(id, record_time)
