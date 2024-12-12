@@ -9,16 +9,18 @@ class Microphone:
     def detect_sound(self) -> bool:
         value = False
         try:
-            with gpiod.request_lines(
-                self.device_path,
-                consumer="detect_sound",
-                config={
-                    self.digital_pin: gpiod.LineSettings(
-                        direction=Direction.INPUT
-                    )
-                },
-            ) as request:
-                value = request.get_value(self.device_path, self.digital_pin)
-                print(value)
+            def _detect():
+                nonlocal value
+                with gpiod.request_lines(
+                    self.device_path,
+                    consumer="_detect",
+                    config={
+                        self.digital_pin: gpiod.LineSettings(
+                            direction=Direction.INPUT
+                        )
+                    },
+                ) as request:
+                    value = request.get_value(self.device_path, self.digital_pin)
+                    print(value)
         finally:
             return value
