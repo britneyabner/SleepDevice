@@ -41,7 +41,6 @@ def run_server():
                 data["motion_score"],
                 data["sound_score"]
             )
-
     server_client = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
     server_client.subscribe(SUB_TOPIC)
 

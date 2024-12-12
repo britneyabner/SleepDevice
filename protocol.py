@@ -23,9 +23,12 @@ def msg_request_scores_on_date(id: int, date: str):
 
     return json.dumps(message)
 
+
 def msg_send_scores_on_date(motion: int, sound: int):
     message = {
         "request": "send_scores_on_date",
         "motion_score": motion,
         "sound_score": sound
     }
+    
+    return json.dumps(message)

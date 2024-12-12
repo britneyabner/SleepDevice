@@ -19,7 +19,7 @@ SUB_TOPIC = "britneyabner/sleepdevice/server"
 PUB_TOPIC = "britneyabner/sleepdevice/device"
 
 
-def run_device(id: int, record_time: int):
+def record_data(id: int, record_time: int):
     sound_time = 0
 
     cam = camera.Camera()
@@ -67,11 +67,20 @@ def run_device(id: int, record_time: int):
     # publish the recorded scores to the server
     mqttc.publish(PUB_TOPIC, score_message)
 
-    # loop, waiting for messages
-    mqttc.loop()
+
+def get_score(id: int, date: str):
+    def _on_connect(mqttc, userdata, flags, reason_code, properties):
+        print("Device connected")
+
+    def _on_message(mqttc, userdata, msg):
+        data = json.loads(msg.payload)
+        if data["request"] == "send_scores_on_date":
+            motion = data["motion_score"]
+            sound = data["sound_score"]
+            print(f"motion: {motion}, sound: {sound}")
+
+    request = protocol.msg_request_scores_on_date(id, date)
+    mqttc = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
+    mqttc.publish(PUB_TOPIC, request)
 
 
-if __name__ == "__main__":
-    id = sys.argv[1]
-    record_time = int(sys.argv[2])
-    run_device(id, record_time)
