@@ -26,7 +26,7 @@ class Microphone:
             return value
 
 
-DEVICE_PATH = "/dev/gpiochip4"
+DEVICE_PATH = "/dev/gpiochip0"
 DIGIATL_PIN = 23
 
 
