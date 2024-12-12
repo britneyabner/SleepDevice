@@ -101,7 +101,7 @@ class Database:
         with psycopg.connct(self.connect_str) as conn:
             with conn.cursor() as cur:
                 cur.execute("""
-                    SELECT sound_score
+a                    SELECT sound_score
                     FROM sleep_data
                     WHERE (patient_id=%s) AND (date=%s)""", (id, date))
 
@@ -131,3 +131,7 @@ def test_add_patients_scores():
 def test_remove_patient():
     db = Database("sleepdb", "postgres")
     db.remove_patient(1)
+
+
+if __name__ == "__main__":
+    test_add_new_patient()

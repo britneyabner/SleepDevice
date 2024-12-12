@@ -2,6 +2,7 @@ import client
 import database
 import re
 import datetime
+import json
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -24,14 +25,6 @@ def add_patient(db, msg):
     db.add_new_patient(fname, lname)
 
 
-def store_scores(db, msg):
-    data = re.findall(r'[0-9]+', msg)
-    id, motion, sound = data[0], data[2], data[3]
-    time = f"{data[1]} sec"
-    date = datetime.today().strftime('%Y-%m-%d')
-    db.add_patient_scores(id, date, time, motion, sound)
-
-
 def run_server():
     db = database.Database("sleepdb", "postgres")
 
@@ -39,10 +32,20 @@ def run_server():
         print("Server connected.")
 
     def _on_message(mqttc, userdata, msg):
-        store_scores(db, msg)
+        data = json.loads(msg.payload)
+        if data["request"] == "send_scores":
+            db.add_patient_scores(
+                data["id"],
+                data["date"],
+                data["time"],
+                data["motion_score"],
+                data["sound_score"]
+            )
 
-    server_client = client.Client(BROKER, PORT, KEEPALIVE, _on_message,
-                                  _on_connect)
+    server_client = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
     server_client.subscribe(SUB_TOPIC)
 
     server_client.loop()
+
+if __name__ == "__main__":
+    run_server()
