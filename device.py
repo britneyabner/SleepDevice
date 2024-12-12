@@ -20,7 +20,7 @@ PUB_TOPIC = "britneyabner/sleepdevice/device"
 def run_device(id: int, record_time: int):
     sound_time = 0
 
-    cam = camera.FrameExtracter()
+    cam = camera.Camera()
     im1 = cam.capture_frame()
     frame_count = 1
     motion_count = 0
