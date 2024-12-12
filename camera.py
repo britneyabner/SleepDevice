@@ -35,7 +35,7 @@ class FrameExtracter:
     def capture_frame(self):
         ret, frame = self.vidcap.read()
         if ret:
-            return frame
+            return cv2.imread(frame)
 
 
 def test_record_video():
