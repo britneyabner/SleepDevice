@@ -38,12 +38,16 @@ def _get_line_value(chip_path, line_offset):
         config={line_offset: gpiod.LineSettings(direction=Direction.INPUT)},
     ) as request:
         value = request.get_value(line_offset)
-        print(value)
 
+    return value
+
+
+def detect_sound():
+    try:
+        if _get_line_value(DEVICE_PATH, DIGIATL_PIN) == Value.ACTIVE:
+            return True
+    except Exception:
+        return False
 
 if __name__ == "__main__":
-    for i in range(5):
-        try:
-            _get_line_value(DEVICE_PATH, DIGIATL_PIN)
-        finally:
-            time.sleep(1)
+    print(detect_sound())
