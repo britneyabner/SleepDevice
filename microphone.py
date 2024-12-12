@@ -1,4 +1,5 @@
 import gpiod
+import time
 from gpiod.line import Direction, Value
 
 class Microphone:
@@ -41,7 +42,8 @@ def _get_line_value(chip_path, line_offset):
 
 
 if __name__ == "__main__":
-    try:
-        _get_line_value(DEVICE_PATH, DIGIATL_PIN)
-    finally:
-        pass
+    for i in range(5):
+        try:
+            _get_line_value(DEVICE_PATH, DIGIATL_PIN)
+        finally:
+            time.sleep(1)
