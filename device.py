@@ -25,11 +25,11 @@ def run_device(id: int, record_time: int):
     frame_count = 1
     motion_count = 0
     for i in range(0, record_time):
-        #im2 = cam.capture_frame()
+        im2 = cam.capture_frame()
         frame_count += 1
-        #if motiondetection.detect_motion(im1, im2):
-            #motion_count += 1
-        #im1 = im2
+        if motiondetection.detect_motion(im1, im2):
+            motion_count += 1
+        im1 = im2
         if microphone.detect_sound():
             sound_time += 1
         time.sleep(1)
