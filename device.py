@@ -58,6 +58,9 @@ def run_device(id: int, record_time: int):
     score_message = protocol.send_scores(id, time_str, motion_score,
                                          sound_score)
 
+    print(score_message)
+
+    """
     # initialize the mqtt client
     def _on_connect(mqttc, userdata, flags, reasone_code, properties):
         print("Device connected")
@@ -73,7 +76,7 @@ def run_device(id: int, record_time: int):
 
     # loop, waiting for messages
     mqttc.loop()
-
+    """
 
 if __name__ == "__main__":
     id = sys.argv[1]
