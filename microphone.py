@@ -30,7 +30,7 @@ DEVICE_PATH = "/dev/gpiochip4"
 DIGIATL_PIN = 23
 
 
-def detect_audio(chip_path, line_offset):
+def get_line_value(chip_path, line_offset):
     with gpiod.request_lines(
         chip_path,
         consumer="get-line-value",
@@ -42,6 +42,6 @@ def detect_audio(chip_path, line_offset):
 
 if __name__ == "__main__":
     try:
-        detect_audio(DEVICE_PATH, DIGIATL_PIN)
+        get_line_value(DEVICE_PATH, DIGIATL_PIN)
     finally:
         pass
