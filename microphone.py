@@ -33,7 +33,7 @@ DIGIATL_PIN = 23
 def detect_audio(chip_path, line_offset):
     with gpiod.request_lines(
         chip_path,
-        consumer="detect_audio",
+        consumer="get-line-value",
         config={line_offset: gpiod.LineSettings(direction=Direction.INPUT)},
     ) as request:
         value = request.detect_audio(line_offset, value)
