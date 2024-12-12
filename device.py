@@ -81,6 +81,7 @@ def get_score(id: int, date: str):
 
     request = protocol.msg_request_scores_on_date(id, date)
     mqttc = client.Client(BROKER, PORT, KEEPALIVE, _on_connect, _on_message)
+    mqttc.subscribe(SUB_TOPIC)
     mqttc.publish(PUB_TOPIC, request)
 
     mqttc.loop()
