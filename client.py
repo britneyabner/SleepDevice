@@ -7,7 +7,7 @@ TOPIC = "britneyabner/sleepdevice"
 
 
 class Client:
-    def __init__(self, broker, port, keepalive, on_message, on_connect):
+    def __init__(self, broker, port, keepalive, on_connect, on_message):
         self.broker = broker
         self.port = port
         self.keepalive = keepalive
