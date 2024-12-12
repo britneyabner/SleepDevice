@@ -7,7 +7,7 @@ class Microphone:
         self.digital_pin = digital_pin
 
     def detect_sound(self) -> bool:
-        value = True
+        value = False
         try:
             with gpiod.request_lines(
                 self.device_path,
