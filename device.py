@@ -6,9 +6,8 @@ import time
 import protocol
 import sys
 
+DEVICE_PATH = "dev/gpiochip0"
 DIGITAL_MIC_PIN = 23
-ANALOG_MIC_PIN = 24
-VIDEO = "test.mp4"
 
 BROKER = "broker.emqx.io"
 PORT = 1883
@@ -21,12 +20,12 @@ PUB_TOPIC = "britneyabner/sleepdevice/device"
 def run_device(id: int, record_time: int):
     sound_time = 0
 
-   # initialize GPIO for sound detection
-    mic = microphone.Microphone(DIGITAL_MIC_PIN, ANALOG_MIC_PIN)
+    # initialize GPIO for sound detection
+    mic = microphone.Microphone(DEVICE_PATH, DIGITAL_MIC_PIN)
     cam = camera.FrameExtracter()
 
     im1 = cam.capture_frame()
-    fram_count = 1
+    frame_count = 1
     motion_count = 0
     for i in range(0, record_time):
         im2 = cam.capture_frame()
@@ -34,15 +33,11 @@ def run_device(id: int, record_time: int):
         if motiondetection.detect_motion(im1, im2):
             motion_count += 1
         im1 = im2
-        try:
-            if mic.detect_audio():
-                sound_time += 1
-        finally:
-            pass
+        if mic.detect_audio():
+            sound_time += 1
         time.sleep(1)
 
-    mic.release_pin()
-
+    motion_score = int(1 - (motion_count / frame_count))
     sound_score = int(1 - (sound_time / record_time))
 
     '''

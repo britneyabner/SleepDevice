@@ -1,16 +1,23 @@
 import gpiod
-
+from gpio.line import Direction, Value
 
 class Microphone:
-    def __init__(self, digital_pin: int, analog_pin):
-        self.chip = gpiod.Chip('/dev/gpiochip0')
-        self.digital_line = self.chip.get_line(digital_pin)
+    def __init__(self, device_path: str, digital_pin: int):
+        self.device_path = device_path
+        self.digital_pin = digital_pin
 
-        self.digital_line_request(
-            consumer='Digital', type=gpiod.LINE_REQ_DIR_IN)
-
-    def detect_audio(self) -> bool:
-        return self.digital_line.get_value()
-
-    def release_pin(self):
-        self.digital_line.release()
+    def detect_sound(self) -> bool:
+        value = False
+        try:
+            with gpiod.request_lines(
+                self.device_path,
+                consumer="Microphone",
+                config={
+                    self.digital_pin: gpiod.LineSettings(
+                        direction=Direction.INPUT
+                    )
+                },
+            ) as request:
+                value = request.get_value(self.device_path, self.digital_pin)
+        finally:
+            return value
