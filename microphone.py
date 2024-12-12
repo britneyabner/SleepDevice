@@ -1,5 +1,5 @@
 import gpiod
-from gpio.line import Direction, Value
+from gpiod.line import Direction, Value
 
 class Microphone:
     def __init__(self, device_path: str, digital_pin: int):
