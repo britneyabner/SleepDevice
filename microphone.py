@@ -38,8 +38,8 @@ def _get_line_value(chip_path, line_offset):
         config={line_offset: gpiod.LineSettings(direction=Direction.INPUT)},
     ) as request:
         value = request.get_value(line_offset)
+        return value
 
-    return value
 
 
 def detect_sound():
