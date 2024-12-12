@@ -11,7 +11,7 @@ class Microphone:
         try:
             with gpiod.request_lines(
                 self.device_path,
-                consumer="Microphone",
+                consumer="detect_sound",
                 config={
                     self.digital_pin: gpiod.LineSettings(
                         direction=Direction.INPUT
