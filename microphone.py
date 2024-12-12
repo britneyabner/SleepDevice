@@ -19,5 +19,6 @@ class Microphone:
                 },
             ) as request:
                 value = request.get_value(self.device_path, self.digital_pin)
+                print(value)
         finally:
             return value
