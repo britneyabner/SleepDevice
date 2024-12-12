@@ -28,7 +28,7 @@ def run():
     if args.record:
         id = args.id
         time = args.time
-        device.run_device(id, time)
+        device.record_data(id, time)
     if args.score:
         id = args.id
         date = args.date
