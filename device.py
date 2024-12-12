@@ -20,10 +20,7 @@ PUB_TOPIC = "britneyabner/sleepdevice/device"
 def run_device(id: int, record_time: int):
     sound_time = 0
 
-    # initialize GPIO for sound detection
-    mic = microphone.Microphone(DEVICE_PATH, DIGITAL_MIC_PIN)
     cam = camera.FrameExtracter()
-
     im1 = cam.capture_frame()
     frame_count = 1
     motion_count = 0
@@ -33,7 +30,7 @@ def run_device(id: int, record_time: int):
         #if motiondetection.detect_motion(im1, im2):
             #motion_count += 1
         #im1 = im2
-        if mic.detect_sound():
+        if microphone.detect_sound():
             sound_time += 1
         time.sleep(1)
 
